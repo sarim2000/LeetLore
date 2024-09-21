@@ -5,27 +5,6 @@ import { openai } from '@ai-sdk/openai';
 import { z } from 'zod';
 import { createStreamableValue } from 'ai/rsc';
 
-export async function getNotifications(input: string) {
-  'use server';
-
-  const { object: notifications } = await generateObject({
-    model: openai('gpt-4-turbo'),
-    system: 'You generate three notifications for a messages app.',
-    prompt: input,
-    schema: z.object({
-      notifications: z.array(
-        z.object({
-          name: z.string().describe('Name of a fictional person.'),
-          message: z.string().describe('Do not use emojis or links.'),
-          minutesAgo: z.number(),
-        }),
-      ),
-    }),
-  });
-
-  return { notifications };
-}
-
 export async function streamNewsUpdates() {
   const stream = createStreamableValue();
 
